@@ -27,62 +27,21 @@ export default {
   name: 'CommonAside',
   data () {
     return {
-      menu: [
-        {
-          name: 'Home',
-          path: '/home',
-          icon: '-s-home',
-          lable: '主页',
-          child: null
-        },
-        {
-          name: 'Article',
-          path: '/article',
-          icon: '-s-management',
-          lable: '文章管理',
-          child: [
-            {
-              name: 'ArticleList',
-              path: '/article/list',
-              lable: '文章列表'
-            },
-            {
-              name: 'ArticleAdd',
-              path: '/article/add',
-              lable: '添加文章'
-            }
-          ]
-        },
-        {
-          name: 'Tag',
-          path: '/tag',
-          icon: '-s-flag',
-          lable: '标签管理',
-          child: [
-            {
-              name: 'TagList',
-              path: '/tag/list',
-              lable: '标签列表'
-            },
-            {
-              name: 'TagAdd',
-              path: '/tag/add',
-              lable: '添加标签'
-            }
-          ]
-        }
-      ]
+      menu: []
     }
   },
   computed: {
     noChild () {
-      return this.menu.filter(item => item.child === null)
+      return this.getMenu.filter(item => item.child == null)
     },
     hasChild () {
-      return this.menu.filter(item => item.child !== null)
+      return this.getMenu.filter(item => item.child != null)
     },
     isCollapse () {
       return this.$store.state.tab.isCollapse
+    },
+    getMenu () {
+      return this.$store.state.tab.menu
     }
   },
   methods: {

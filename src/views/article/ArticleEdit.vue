@@ -18,7 +18,7 @@
             v-for="item in tagList"
             :key="item.id"
             :label="item.name"
-            :value="item.name + ',' + item.color"
+            :value="item.name + ':' + item.color"
             >
             </el-option>
           </el-select>
@@ -45,7 +45,7 @@
           <el-input type="text" v-model="form.author"></el-input>
         </el-form-item>
         <el-form-item label="文章内容" style="width:80%" prop="content">
-           <el-input type="textarea" v-model="form.content"></el-input>
+           <mavon-editor v-model="form.content" @change="show"></mavon-editor>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" :loading="loading" @click="handleSubmit('form')">更新</el-button>
@@ -97,6 +97,9 @@ export default {
     }
   },
   methods: {
+    show (val, mark) {
+      this.form.html = mark
+    },
     back () {
       this.$router.back()
     },
@@ -106,13 +109,13 @@ export default {
     },
     async getArtById (id) {
       const { data: res } = await getArtByIdAPI(id)
-      this.form = Object.assign(res.data[0], this.form)
+      this.form = Object.assign({}, res.data[0], this.form)
     },
     async getArtTaglist (id) {
       const { data: res } = await getArtTaglistAPI(id)
       console.log(res)
       res.data.forEach(v => {
-        this.form.tag.push(v.tagname + ',' + v.color)
+        this.form.tag.push(v.tagname + ':' + v.color)
       })
     },
     handleSubmit (formName) {

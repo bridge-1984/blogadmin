@@ -1,3 +1,5 @@
+import Cookie from 'js-cookie'
+
 export default {
   state: {
     isCollapse: false,
@@ -9,7 +11,8 @@ export default {
         lable: '主页',
         child: null
       }
-    ]
+    ],
+    menu: []
   },
   mutations: {
     collapseMenu (state) {
@@ -26,6 +29,37 @@ export default {
       } else {
         state.menuList.splice(1)
       }
+    },
+    setMenu (state, val) {
+      state.menu = val
+      Cookie.set('menu', JSON.stringify(val))
+    },
+    clearMenu (state) {
+      state.menu = []
+      Cookie.remove('menu')
+    },
+    addMenu (state, router) {
+      if (!Cookie.get('menu')) {
+        return
+      }
+      const menu = JSON.parse(Cookie.get('menu'))
+      state.menu = menu
+      const menuArray = []
+      menu.forEach(item => {
+        if (item.child) {
+          item.child = item.child.map(item => {
+            item.component = () => import(`../views/${item.url}`)
+            return item
+          })
+          menuArray.push(...item.child)
+        } else {
+          item.component = () => import(`../views/${item.url}`)
+          menuArray.push(item)
+        }
+      })
+      menuArray.forEach(item => {
+        router.addRoute('home', item)
+      })
     }
   }
 }

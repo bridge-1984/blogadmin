@@ -14,8 +14,8 @@
           <img src="../assets/logo.png" alt="">
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>用户名</el-dropdown-item>
-          <el-dropdown-item @click="logout">退出</el-dropdown-item>
+          <el-dropdown-item @click.native="backtoblog">用户名</el-dropdown-item>
+          <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -30,9 +30,12 @@ export default {
       this.$store.commit('collapseMenu')
     },
     logout () {
-      // 点击事件无效
-      console.log(111)
-      window.location.href = 'http://127.0.0.1:8099/#/login'
+      this.$store.commit('clearToken')
+      this.$store.commit('clearMenu')
+      this.$router.push('/login')
+    },
+    backtoblog () {
+      window.location.href = 'http://localhost:8080/'
     }
   },
   computed: {

@@ -18,7 +18,7 @@
             v-for="item in tagList"
             :key="item.id"
             :label="item.name"
-            :value="item.name + ',' + item.color"
+            :value="item.name + ':' + item.color"
             >
             </el-option>
           </el-select>
@@ -45,7 +45,7 @@
           <el-input type="text" v-model="form.author"></el-input>
         </el-form-item>
         <el-form-item label="文章内容" style="width:80%" prop="content">
-           <el-input type="textarea" v-model="form.content"></el-input>
+           <mavon-editor v-model="form.content" @change="show"></mavon-editor>
         </el-form-item>
         <el-form-item>
           <el-button type="primary"  @click="handleSubmit('form')" :loading="loading">添加</el-button>
@@ -70,6 +70,7 @@ export default {
         content: '',
         img: '',
         author: '',
+        html: '',
         date: new Date().toLocaleDateString()
       },
       tagList: [],
@@ -96,6 +97,9 @@ export default {
     }
   },
   methods: {
+    show (val, mark) {
+      this.form.html = mark
+    },
     back () {
       this.$router.back()
     },
@@ -132,6 +136,7 @@ export default {
       return addArticleAPI(this.form)
         .then((res) => {
           console.log(res)
+          console.log(new Date().toLocaleString())
           this.$message.success('新增文章成功')
           this.$router.push('/article/list')
         })

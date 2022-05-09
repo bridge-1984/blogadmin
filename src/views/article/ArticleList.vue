@@ -9,19 +9,25 @@
     style="width: 100%">
     <el-table-column
       fixed
+      prop="id"
+      label="ID"
+      class="id">
+    </el-table-column>
+    <el-table-column
+      fixed
       prop="title"
       label="标题"
       width="150"
       class="title">
     </el-table-column>
-    <el-table-column
+    <!-- <el-table-column
       label="类型"
       width="120"
       >
       <template slot-scope="scope">
         <el-tag v-for="item in scope.row.tag" :key="item.id" :color="item.color" effect="dark">{{item.tagname}}</el-tag>
       </template>
-    </el-table-column>
+    </el-table-column> -->
     <el-table-column
       prop="intro"
       label="描述"
@@ -80,8 +86,8 @@ export default {
       artNum: 0,
       currList: [],
       size: 6,
-      page: 0
-    //  taglist: []
+      page: 0,
+      taglist: []
     }
   },
   methods: {
@@ -98,7 +104,7 @@ export default {
       //   v.tag = this.taglist[i]
       // })
       this.currList = this.artListData.slice(this.star, this.end)
-      console.log(this.artListData)
+      // console.log(this.artListData)
     },
     // async getArtTag (id, i) {
     //   const { data: res } = await getArtTaglistAPI(id)

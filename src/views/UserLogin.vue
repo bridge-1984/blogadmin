@@ -86,6 +86,9 @@ export default {
           const data = res.data
           if (data.status === -1) this.$message.error(data.message)
           else {
+            this.$store.commit('clearMenu')
+            this.$store.commit('setMenu', data.menu)
+            this.$store.commit('addMenu', this.$router)
             const token = data.message
             this.$store.commit('setToken', token)
             this.$router.push({ name: 'home', query: { name: data.name } })
